@@ -12,7 +12,7 @@ function CollectionsPage() {
       {mockCollections.length === 0 ? (
         <section className="empty-state">
           <h2>No collections yet</h2>
-          <p>Your music and movie collections will appear here.</p>
+          <p>music and movie collections will appear here.</p>
         </section>
       ) : (
         <section className="collection-grid" aria-label="Your collections">
