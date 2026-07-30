@@ -1,13 +1,13 @@
-# Capstone 2 Playlist Frontend
+# Capstone 2 Collection Frontend
 
-Frontend for a playlist application where users can organize their favorite
-songs into personal playlists.
+Frontend for a collection application where users can organize and share their
+favorite music and movies.
 
 ## Current frontend foundation
 
 - React and Vite
 - React Router
-- Home, playlists, and song-search routes
+- Home, collections, and search routes
 - Shared navigation and starter responsive styling
 - Environment variable for the backend URL
 
