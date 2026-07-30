@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import HomePage from "./pages/HomePage.jsx";
-import PlaylistsPage from "./pages/PlaylistsPage.jsx";
+import CollectionsPage from "./pages/CollectionsPage.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/playlists" element={<PlaylistsPage />} />
+        <Route path="/collections" element={<CollectionsPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="*" element={<HomePage />} />
       </Routes>
@@ -20,4 +20,3 @@ function App() {
 }
 
 export default App;
-

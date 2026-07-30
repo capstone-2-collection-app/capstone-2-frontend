@@ -4,19 +4,19 @@ function HomePage() {
   return (
     <main className="page-container">
       <section className="hero">
-        <p className="eyebrow">Your music, your way</p>
-        <h1>Build playlists for the songs you love.</h1>
+        <p className="eyebrow">Your favorites, your way</p>
+        <h1>Keep everything you enjoy in one place.</h1>
         <p>
-          Search for music, create personal playlists, and keep your favorite
-          songs organized in one place.
+          Create collections for music and movies, then save your favorite
+          items so they are easy to find and share.
         </p>
 
         <div className="hero__actions">
-          <Link className="button" to="/playlists">
-            View Playlists
+          <Link className="button" to="/collections">
+            View Collections
           </Link>
           <Link className="button button--secondary" to="/search">
-            Search Songs
+            Search Items
           </Link>
         </div>
       </section>
@@ -25,4 +25,3 @@ function HomePage() {
 }
 
 export default HomePage;
-
