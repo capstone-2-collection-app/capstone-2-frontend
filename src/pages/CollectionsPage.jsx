@@ -1,9 +1,11 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useCollections } from "../context/CollectionsContext";
 import CollectionCard from "../components/CollectionCard";
+import CreateCard from "../components/CreateCard";
 
 function CollectionsPage() {
   const { collections, loading, fetchCollections } = useCollections();
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     fetchCollections();
@@ -23,7 +25,14 @@ function CollectionsPage() {
       fetchCollections();
     } catch (err) {
       console.error("Failed to create collection:", err);
+    }finally{
+      setIsVisible(false)
     }
+  }
+
+
+  function popUp(){
+    setIsVisible(!isVisible)
   }
 
   async function handleAddChild(parentId) {
@@ -65,7 +74,8 @@ function CollectionsPage() {
         <p className="eyebrow">Your saved items</p>
         <span>
           <h1>My Collections</h1>
-          <button onClick={handleCreate}>Create</button>
+          {isVisible? <CreateCard onSubmit={handleCreate} onCancel={popUp}></CreateCard>:<button className="create-btn" onClick={popUp}>Create</button> }
+          
         </span>
         
       </header>

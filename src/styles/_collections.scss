@@ -97,3 +97,25 @@
 
   width: 100%;
 }
+
+.create-btn {
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    color: $color-accent-text;
+    font-weight: bold;
+    font-size: 0.85rem;
+    background: whitesmoke;
+    border-radius: $radius-pill;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.85;
+    }
+
+    &--secondary {
+      color: $color-text;
+      background: whitesmoke;
+    }
+  }
