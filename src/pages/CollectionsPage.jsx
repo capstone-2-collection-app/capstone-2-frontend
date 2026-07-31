@@ -11,15 +11,15 @@ function CollectionsPage() {
     fetchCollections();
   }, []);
 
-  async function handleCreate() {
+  async function handleCreate({name, category}) {
     try {
       await fetch("http://localhost:3000/api/collections", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: "My First Collection",
-          category: "mixed",
+          name: name,
+          category: category ,
         }),
       });
       fetchCollections();
