@@ -8,6 +8,8 @@ function Navbar() {
       </Link>
 
       <div className="navbar__links">
+        <Link to="/login">Login</Link>
+        <Link to="/signup">Sign up</Link>
         <Link to="/">Home</Link>
         <Link to="/playlists">My Playlists</Link>
         <Link to="/search">Search Songs</Link>
@@ -17,4 +19,3 @@ function Navbar() {
 }
 
 export default Navbar;
-
