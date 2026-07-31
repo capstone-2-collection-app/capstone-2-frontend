@@ -1,15 +1,17 @@
-import { useState} from "react";
+import { useState } from "react";
 import { CollectionsContext } from "./CollectionsContext";
 
 export function CollectionsProvider({ children }) {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isReload, setIsReload] = useState(false);
 
   const fetchCollections = async () => {
+    const initial_load = collections.length === 0 && loading;
+    initial_load ? setLoading(true) : setIsReload(true);
     try {
-      setLoading(true);
       const res = await fetch("http://localhost:3000/api/collections", {
-        credentials: "include" // required so the guest_id cookie is sent
+        credentials: "include", // required so the guest_id cookie is sent
       });
       const data = await res.json();
       setCollections(data);
@@ -17,16 +19,17 @@ export function CollectionsProvider({ children }) {
       console.error("Failed to fetch collections:", err);
     } finally {
       setLoading(false);
+      setIsReload(false)
     }
   };
 
-//   useEffect(() => {
-//     fetchCollections();
-//   }, []);
+  //   useEffect(() => {
+  //     fetchCollections();
+  //   }, []);
 
   return (
     <CollectionsContext.Provider
-      value={{ collections, setCollections, loading, fetchCollections }}
+      value={{ collections, setCollections, loading, isReload,fetchCollections }}
     >
       {children}
     </CollectionsContext.Provider>
