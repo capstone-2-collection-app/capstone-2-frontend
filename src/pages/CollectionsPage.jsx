@@ -7,7 +7,7 @@ import SearchBar from "../components/SearchBar";
 function CollectionsPage() {
   const { collections, loading, fetchCollections } = useCollections();
   const [isVisible, setIsVisible] = useState(false);
-  const { selectedId, setSelectedId } = useCollections();
+  const { selectedId } = useCollections();
   const [category, setCategory] = useState("search");
   const showSearchBar = category !== "search";
 
