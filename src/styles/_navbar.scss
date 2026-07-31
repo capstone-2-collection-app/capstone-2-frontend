@@ -1,0 +1,36 @@
+@use 'variables' as *;
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  background: $color-surface;
+  border-bottom: 1px solid $color-border;
+
+  &__brand {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: $color-accent;
+  }
+
+  &__links {
+    display: flex;
+    gap: 1rem;
+
+    a:hover {
+      color: $color-accent;
+    }
+  }
+
+  @media (max-width: $breakpoint-mobile) {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 1rem;
+
+    &__links {
+      flex-wrap: wrap;
+    }
+  }
+}
