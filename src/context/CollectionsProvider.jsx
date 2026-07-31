@@ -5,6 +5,7 @@ export function CollectionsProvider({ children }) {
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isReload, setIsReload] = useState(false);
+  const [selectedId, setSelectedId] = useState(null);
 
   const fetchCollections = async () => {
     const initial_load = collections.length === 0 && loading;
@@ -29,7 +30,7 @@ export function CollectionsProvider({ children }) {
 
   return (
     <CollectionsContext.Provider
-      value={{ collections, setCollections, loading, isReload,fetchCollections }}
+      value={{ collections, setCollections, loading, isReload, fetchCollections, selectedId, setSelectedId }}
     >
       {children}
     </CollectionsContext.Provider>

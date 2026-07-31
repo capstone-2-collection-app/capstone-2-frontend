@@ -166,10 +166,15 @@ a {
   height: 100%;
   padding: 1.25rem;
   transition: border-color 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
 }
 .collection-card:hover {
   border-color: #4b5563;
   transform: translateY(-2px);
+}
+.collection-card.selected {
+  border-color: #4ade80;
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.3);
 }
 .collection-card .card-header {
   margin: 0;

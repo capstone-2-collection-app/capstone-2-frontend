@@ -41,9 +41,16 @@
   padding: 1.25rem;
   transition: border-color 0.2s ease, transform 0.2s ease;
 
+  cursor: pointer;
+
   &:hover {
     border-color: $color-border-muted;
     transform: translateY(-2px);
+  }
+
+  &.selected{
+    border-color: $color-accent;
+    box-shadow: 0 0 0 2px rgba($color-accent, 0.3);
   }
 
   .card-header {
