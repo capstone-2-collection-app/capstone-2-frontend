@@ -1,13 +1,55 @@
 import { useNavigate } from "react-router-dom";
 import "./Signup.css";
+import { useState } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
 
 function Signup() {
   const navigate = useNavigate();
 
-  function handleSubmit(event) {
+  const { dispatch } = useContext(AuthContext);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [signupStatus, setSignupStatus] = useState(null);
+
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  // create user
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    // We will connect the signup API here next.
+    setIsLoading(true);
+    setError(null);
+
+    const response = await fetch(`${API_URL}/user/signup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setIsLoading(false);
+      setError(data.message);
+    }
+
+    if (response.ok) {
+      localStorage.setItem("user", JSON.stringify(data));
+
+      // update authcontext
+      dispatch({ type: "LOGIN", payload: data });
+      setIsLoading(false);
+      setEmail("");
+      setName("");
+      setPassword("");
+      setSignupStatus("Account Registered.");
+    }
   }
 
   return (
@@ -23,8 +65,8 @@ function Signup() {
               name="name"
               type="text"
               placeholder="Enter your name"
-              autoComplete="name"
-              required
+              onChange={(e) => setName(e.target.value)}
+              value={name}
             />
           </div>
 
@@ -33,10 +75,10 @@ function Signup() {
             <input
               id="email"
               name="email"
-              type="email"
+              type="text"
               placeholder="name@example.com"
-              autoComplete="email"
-              required
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
           </div>
 
@@ -48,13 +90,21 @@ function Signup() {
               type="password"
               placeholder="Enter password"
               autoComplete="new-password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
               required
             />
           </div>
 
-          <button className="signup-submit" type="submit">
-            Create account
+          <button className="signup-submit" type="submit" disabled={isLoading}>
+            {isLoading ? "Creating account..." : "Create account"}
           </button>
+
+          {error && <div className="signup-message signup-error">{error}</div>}
+
+          {signupStatus && (
+            <div className="signup-message signup-success">{signupStatus}</div>
+          )}
         </form>
 
         <div className="signup-divider">
