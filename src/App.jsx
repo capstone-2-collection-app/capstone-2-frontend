@@ -27,7 +27,7 @@ function App() {
         />
         <Route
           path="/login"
-          element={!user ? <Login /> : <Navigate to="/login"></Navigate>}
+          element={!user ? <Login /> : <Navigate to="/"></Navigate>}
         />
         <Route
           path="/collections"
