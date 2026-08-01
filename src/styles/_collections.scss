@@ -1,8 +1,15 @@
 @use "variables" as *;
 
+.container{
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+}
+
 .empty-state {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1.5rem;
   padding: 2rem;
   text-align: center;
@@ -41,9 +48,16 @@
   padding: 1.25rem;
   transition: border-color 0.2s ease, transform 0.2s ease;
 
+  cursor: pointer;
+
   &:hover {
     border-color: $color-border-muted;
     transform: translateY(-2px);
+  }
+
+  &.selected{
+    border-color: $color-accent;
+    box-shadow: 0 0 0 2px rgba($color-accent, 0.3);
   }
 
   .card-header {
@@ -97,3 +111,26 @@
 
   width: 100%;
 }
+
+.create-btn {
+    // display: inline-block;
+    padding: 0.5rem 1.25rem;
+    height: 3rem;
+    color: $color-accent-text;
+    font-weight: bold;
+    font-size: 0.85rem;
+    background: whitesmoke;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.85;
+    }
+
+    &--secondary {
+      color: $color-text;
+      background: whitesmoke;
+    }
+  }

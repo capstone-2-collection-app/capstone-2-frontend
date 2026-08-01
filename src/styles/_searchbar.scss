@@ -1,0 +1,126 @@
+@use 'variables' as *;
+
+.toolbar{
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+
+  width: 100%;
+  padding: 1rem 0;
+  .card-btn{
+    display: inline-block;
+    padding: 0.5rem 1.25rem;
+    margin: 0rem 0.3rem;
+    color: $color-accent-text;
+    font-weight: bold;
+    font-size: 0.85rem;
+    background: whitesmoke;
+    border-radius: $radius-pill;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.85;
+    }
+
+    &--secondary {
+      color: $color-text;
+      background: whitesmoke;
+    }
+  }
+}
+
+.selection{
+  display: inline-block;
+    padding: 0.5rem 1.25rem;
+    margin: 0rem 0.3rem;
+    color: $color-accent-text;
+    font-weight: bold;
+    font-size: 0.85rem;
+    background: whitesmoke;
+    border-radius: $radius-pill;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.85;
+    }
+
+    &--secondary {
+      color: $color-text;
+      background: whitesmoke;
+    }
+}
+
+.form-field {
+  width: 495px;
+
+  input {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    color: #f1f1f1;
+    background: #1e1e1e;
+    border: 1px solid rgba(245, 222, 179, 0.397);
+    border-radius: 8px;
+
+    &:focus {
+      outline: none;
+      border-color: #f5deb3;
+    }
+  }
+}
+
+.search-results {
+
+  top: calc(100% + 0.4rem);
+  left: 0;
+  width: 100%;
+  z-index: 10;
+
+  list-style: none;
+  margin: 0;
+  margin-top: 1rem;
+  padding: 0.4rem;
+
+  background: #1e1e1e;
+  border: 1px solid rgba(245, 222, 179, 0.397);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+
+  &:hover {
+    background: rgba(245, 222, 179, 0.08);
+  }
+
+  &.selected {
+    background: rgba(245, 222, 179, 0.12);
+    border: 1px solid #f5deb3;
+  }
+
+  .track-name {
+    font-weight: bold;
+    color: #f1f1f1;
+  }
+
+  .track-artist {
+    color: #a0a0a0;
+    font-size: 0.9rem;
+  }
+}
