@@ -18,6 +18,7 @@ function Signup() {
       setEmail("");
       setPassword("");
       setLoginStatus("Account Registered.");
+      navigate("/home");
     }
   }
 

@@ -1,18 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useCollections } from "../context/CollectionsContext";
 import CollectionCard from "../components/CollectionCard";
 import CreateCard from "../components/CreateCard";
 import SearchBar from "../components/SearchBar";
+import { useAuthFetch } from "../hooks/useAuthFetch"; // imported authFetch hook
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 function CollectionsPage() {
   const { collections, loading, fetchCollections } = useCollections();
-   const { selectedId, notifyMediaUpdated} = useCollections();
+  const { selectedId, notifyMediaUpdated } = useCollections();
   const [isVisible, setIsVisible] = useState(false);
 
-
   const [category, setCategory] = useState("search");
-  const [selectedItem, setSelectedItem] = useState(null); 
+  const [selectedItem, setSelectedItem] = useState(null);
   const showSearchBar = category !== "search";
+
+  const { user } = useContext(AuthContext); // global user state or current logged in user
+  // to use authFetch
+  const authFetch = useAuthFetch(); // we want to add bearer token in our requ from the frontend
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCollections();
@@ -20,7 +27,7 @@ function CollectionsPage() {
 
   async function handleCreate({ name, category }) {
     try {
-      await fetch("http://localhost:3000/api/collections", {
+      await authFetch("http://localhost:3000/api/collections", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -43,7 +50,7 @@ function CollectionsPage() {
 
   // async function handleAddChild(parentId, item) {
   //   try {
-  //     await fetch(
+  //     await authFetch(
   //       `http://localhost:3000/api/collections/${parentId}/children`,
   //       {
   //         method: "POST",
@@ -63,7 +70,7 @@ function CollectionsPage() {
 
   async function handleDelete(id) {
     try {
-      await fetch(`http://localhost:3000/api/collections/${id}`, {
+      await authFetch(`http://localhost:3000/api/collections/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -73,44 +80,44 @@ function CollectionsPage() {
     }
   }
 
-async function onAdd(parentId, item) {
-  try {
-    if (item) {
-      // A search result was selected -> add as a track
-      await fetch(
-        `http://localhost:3000/api/collections/${parentId}/tracks`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(item),
-        },
-      );
-      notifyMediaUpdated(parentId)
-    } else {
-      // No item -> Add button was clicked directly -> create a child collection
-      await fetch(
-        `http://localhost:3000/api/collections/${parentId}/children`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: "New Sub-Collection",
-            category: "mixed",
-          }),
-        },
-      );
+  async function onAdd(parentId, item) {
+    try {
+      if (item) {
+        // A search result was selected -> add as a track
+        await authFetch(
+          `http://localhost:3000/api/collections/${parentId}/tracks`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(item),
+          },
+        );
+        notifyMediaUpdated(parentId);
+      } else {
+        // No item -> Add button was clicked directly -> create a child collection
+        await authFetch(
+          `http://localhost:3000/api/collections/${parentId}/children`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: "New Sub-Collection",
+              category: "mixed",
+            }),
+          },
+        );
+      }
+      fetchCollections();
+    } catch (err) {
+      console.error("Failed to add:", err);
     }
-    fetchCollections();
-  } catch (err) {
-    console.error("Failed to add:", err);
   }
-}
 
-async function onSelect(item) {
-  setSelectedItem(item)
-}
+  async function onSelect(item) {
+    setSelectedItem(item);
+  }
   if (loading) return <p>Loading...</p>;
   return (
     <main className="page-container">
@@ -152,7 +159,7 @@ async function onSelect(item) {
           <option value="Movies">Movies</option>
           <option value="Books">Books</option>
         </select>
-        {showSearchBar && <SearchBar category={category} onSelect={onSelect}/>}
+        {showSearchBar && <SearchBar category={category} onSelect={onSelect} />}
       </div>
       <section className="empty-state">
         {collections.length === 0 ? (

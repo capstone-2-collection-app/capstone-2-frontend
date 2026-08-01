@@ -1,15 +1,25 @@
 import { useState, useEffect, useRef } from "react";
+import { useAuthFetch } from "../hooks/useAuthFetch";
 
-function SearchBar({ category, onResults, onSelect, placeholder, delay = 500 }) {
+function SearchBar({
+  category,
+  onResults,
+  onSelect,
+  placeholder,
+  delay = 500,
+}) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const timeoutRef = useRef(null);
 
+  // authFetch - only user with auth token can search
+  const authFetch = useAuthFetch();
+
   async function fetchMusic(searchTerm) {
-    const res = await fetch(
+    const res = await authFetch(
       `http://localhost:3000/search/track?search=${encodeURIComponent(searchTerm)}`,
-      { method: "GET", credentials: "include" }
+      { method: "GET", credentials: "include" },
     );
     return res.json();
   }
@@ -50,13 +60,12 @@ function SearchBar({ category, onResults, onSelect, placeholder, delay = 500 }) 
     }, delay);
   }
 
-  function handleSelect(index, track){
-    const newSelectedIndex = (selectedIndex === index )? null : index;
-    setSelectedIndex(newSelectedIndex)
-    console.log(track)
-    onSelect?.(newSelectedIndex===null ? null : track)
+  function handleSelect(index, track) {
+    const newSelectedIndex = selectedIndex === index ? null : index;
+    setSelectedIndex(newSelectedIndex);
+    console.log(track);
+    onSelect?.(newSelectedIndex === null ? null : track);
   }
-
 
   useEffect(() => {
     return () => clearTimeout(timeoutRef.current);
@@ -73,11 +82,14 @@ function SearchBar({ category, onResults, onSelect, placeholder, delay = 500 }) 
       {results.length > 0 && (
         <ul className="search-results">
           {results.map((track, i) => (
-            <li key={i} className={`search-result-item ${selectedIndex===i ? "selected":""}`}
-            onClick={(e)=>{
+            <li
+              key={i}
+              className={`search-result-item ${selectedIndex === i ? "selected" : ""}`}
+              onClick={(e) => {
                 e.stopPropagation();
-                handleSelect(i, track)
-            }} >
+                handleSelect(i, track);
+              }}
+            >
               <span className="track-name">{track.name}</span>
               <span> by </span>
               <span className="track-artist">{track.artist}</span>

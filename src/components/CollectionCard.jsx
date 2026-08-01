@@ -1,11 +1,15 @@
 import { useCollections } from "../context/CollectionsContext";
 import { useState, useEffect } from "react";
 
+import { useAuthFetch } from "../hooks/useAuthFetch";
+
 function CollectionCard({ collection, depth = 0 }) {
   const { selectedId, setSelectedId, updatedCollection } = useCollections();
   const isSelected = selectedId === collection.collection_id;
   const [media, setMedia] = useState([]);
   const [loadingMedia, setLoadingMedia] = useState([]);
+
+  const authFetch = useAuthFetch();
 
   useEffect(() => {
     let cancelled = false;
@@ -17,7 +21,7 @@ function CollectionCard({ collection, depth = 0 }) {
       setLoadingMedia(true);
       try {
         const endpoint = collection.category === "music" ? "tracks" : "movies";
-        const res = await fetch(
+        const res = await authFetch(
           `http://localhost:3000/api/collections/${collection.collection_id}/${endpoint}`,
           { method: "GET", credentials: "include" },
         );
@@ -50,7 +54,7 @@ function CollectionCard({ collection, depth = 0 }) {
       setLoadingMedia(true);
       try {
         const endpoint = collection.category === "music" ? "tracks" : "movies";
-        const res = await fetch(
+        const res = await authFetch(
           `http://localhost:3000/api/collections/${collection.collection_id}/${endpoint}`,
           { method: "GET", credentials: "include" },
         );
