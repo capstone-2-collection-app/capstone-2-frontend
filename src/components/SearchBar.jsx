@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-function SearchBar({ category, onResults, placeholder, delay = 500 }) {
+function SearchBar({ category, onResults, onSelect, placeholder, delay = 500 }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -53,7 +53,8 @@ function SearchBar({ category, onResults, placeholder, delay = 500 }) {
   function handleSelect(index, track){
     const newSelectedIndex = (selectedIndex === index )? null : index;
     setSelectedIndex(newSelectedIndex)
-    onSelectTrack?.(newSelectedIndex===null ? null : track)
+    console.log(track)
+    onSelect?.(newSelectedIndex===null ? null : track)
   }
 
 

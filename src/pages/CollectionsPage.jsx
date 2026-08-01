@@ -6,9 +6,12 @@ import SearchBar from "../components/SearchBar";
 
 function CollectionsPage() {
   const { collections, loading, fetchCollections } = useCollections();
+   const { selectedId, notifyMediaUpdated} = useCollections();
   const [isVisible, setIsVisible] = useState(false);
-  const { selectedId } = useCollections();
+
+
   const [category, setCategory] = useState("search");
+  const [selectedItem, setSelectedItem] = useState(null); 
   const showSearchBar = category !== "search";
 
   useEffect(() => {
@@ -38,25 +41,25 @@ function CollectionsPage() {
     setIsVisible(!isVisible);
   }
 
-  async function handleAddChild(parentId) {
-    try {
-      await fetch(
-        `http://localhost:3000/api/collections/${parentId}/children`,
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: "New Sub-Collection",
-            category: "mixed",
-          }),
-        },
-      );
-      fetchCollections();
-    } catch (err) {
-      console.error("Failed to create child collection:", err);
-    }
-  }
+  // async function handleAddChild(parentId, item) {
+  //   try {
+  //     await fetch(
+  //       `http://localhost:3000/api/collections/${parentId}/children`,
+  //       {
+  //         method: "POST",
+  //         credentials: "include",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           name: "New Sub-Collection",
+  //           category: "mixed",
+  //         }),
+  //       },
+  //     );
+  //     fetchCollections();
+  //   } catch (err) {
+  //     console.error("Failed to create child collection:", err);
+  //   }
+  // }
 
   async function handleDelete(id) {
     try {
@@ -70,6 +73,44 @@ function CollectionsPage() {
     }
   }
 
+async function onAdd(parentId, item) {
+  try {
+    if (item) {
+      // A search result was selected -> add as a track
+      await fetch(
+        `http://localhost:3000/api/collections/${parentId}/tracks`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(item),
+        },
+      );
+      notifyMediaUpdated(parentId)
+    } else {
+      // No item -> Add button was clicked directly -> create a child collection
+      await fetch(
+        `http://localhost:3000/api/collections/${parentId}/children`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: "New Sub-Collection",
+            category: "mixed",
+          }),
+        },
+      );
+    }
+    fetchCollections();
+  } catch (err) {
+    console.error("Failed to add:", err);
+  }
+}
+
+async function onSelect(item) {
+  setSelectedItem(item)
+}
   if (loading) return <p>Loading...</p>;
   return (
     <main className="page-container">
@@ -89,7 +130,7 @@ function CollectionsPage() {
         <button
           className="card-btn"
           disabled={!selectedId}
-          onClick={() => handleAddChild(selectedId)}
+          onClick={() => onAdd(selectedId, selectedItem)}
         >
           Add
         </button>
@@ -111,7 +152,7 @@ function CollectionsPage() {
           <option value="Movies">Movies</option>
           <option value="Books">Books</option>
         </select>
-        {showSearchBar && <SearchBar category={category} />}
+        {showSearchBar && <SearchBar category={category} onSelect={onSelect}/>}
       </div>
       <section className="empty-state">
         {collections.length === 0 ? (
@@ -126,7 +167,7 @@ function CollectionsPage() {
               <CollectionCard
                 key={c.collection_id}
                 collection={c}
-                onAddChild={handleAddChild}
+                onAddChild={onAdd}
                 onDelete={handleDelete}
               />
             ))}

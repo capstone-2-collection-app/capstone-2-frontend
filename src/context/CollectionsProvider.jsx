@@ -6,6 +6,15 @@ export function CollectionsProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [isReload, setIsReload] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  // in CollectionsContext.jsx
+const [updatedCollection, setUpdatedCollection] = useState(null); // { id, version }
+
+function notifyMediaUpdated(collectionId) {
+  setUpdatedCollection({ id: collectionId, version: Date.now() });
+}
+
+// include in context value:
+// { collections, loading, fetchCollections, selectedId, setSelectedId, updatedCollection, notifyMediaUpdated }
 
   const fetchCollections = async () => {
     const initial_load = collections.length === 0 && loading;
@@ -30,7 +39,7 @@ export function CollectionsProvider({ children }) {
 
   return (
     <CollectionsContext.Provider
-      value={{ collections, setCollections, loading, isReload, fetchCollections, selectedId, setSelectedId }}
+      value={{ collections, setCollections, loading, isReload, fetchCollections, selectedId, setSelectedId, updatedCollection, notifyMediaUpdated }}
     >
       {children}
     </CollectionsContext.Provider>
