@@ -30,39 +30,39 @@ function CollectionCard({ collection, depth = 0 }) {
   }
 
   async function handleDeleteSelected(e) {
-  e.stopPropagation();
+    e.stopPropagation();
 
-  let endpoint;
-  switch (collection.category) {
-    case "music":
-      endpoint = "tracks";
-      break;
-    case "movie":
-      endpoint = "movies";
-      break;
+    let endpoint;
+    switch (collection.category) {
+      case "music":
+        endpoint = "tracks";
+        break;
+      case "movie":
+        endpoint = "movies";
+        break;
 
-    default:
-      console.warn(`No delete handler for category: ${collection.category}`);
-      return;
-  }
+      default:
+        console.warn(`No delete handler for category: ${collection.category}`);
+        return;
+    }
 
-  try {
-    await Promise.all(
-      [...selectedItemIds].map((id) =>
-        fetch(
-          `http://localhost:3000/api/collections/${collection.collection_id}/${endpoint}/${id}`,
-          { method: "DELETE", credentials: "include" },
+    try {
+      await Promise.all(
+        [...selectedItemIds].map((id) =>
+          fetch(
+            `http://localhost:3000/api/collections/${collection.collection_id}/${endpoint}/${id}`,
+            { method: "DELETE", credentials: "include" },
+          ),
         ),
-      ),
-    );
-    setMedia((prev) =>
-      prev.filter((m) => !selectedItemIds.has(getItemId(m))),
-    );
-    setSelectedItemIds(new Set());
-  } catch (err) {
-    console.error("Failed to delete selected items:", err);
+      );
+      setMedia((prev) =>
+        prev.filter((m) => !selectedItemIds.has(getItemId(m))),
+      );
+      setSelectedItemIds(new Set());
+    } catch (err) {
+      console.error("Failed to delete selected items:", err);
+    }
   }
-}
 
   useEffect(() => {
     let cancelled = false;
@@ -138,18 +138,20 @@ function CollectionCard({ collection, depth = 0 }) {
       {/* Card header with edit button*/}
       <div className="card-toolbar">
         <h2 className="card-header">{collection.name}</h2>
-        {isEditing && (
-          <button
-            className="dlt-btn"
-            disabled={selectedItemIds.size === 0}
-            onClick={handleDeleteSelected}
-          >
-            Delete ({selectedItemIds.size})
+        <span>
+          {isEditing && (
+            <button
+              className="dlt-btn"
+              disabled={selectedItemIds.size === 0}
+              onClick={handleDeleteSelected}
+            >
+              Delete ({selectedItemIds.size})
+            </button>
+          )}
+          <button className="edit-btn" onClick={toggleEdit}>
+            {isEditing ? "Done" : "Edit"}
           </button>
-        )}
-        <button className="edit-btn" onClick={toggleEdit}>
-          {isEditing ? "Done" : "Edit"}
-        </button>
+        </span>
       </div>
 
       {loadingMedia && collection.category !== "container" && (

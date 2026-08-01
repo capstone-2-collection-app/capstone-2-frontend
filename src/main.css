@@ -186,12 +186,59 @@ a {
   justify-content: space-between;
   width: inherit;
 }
-.collection-card .card-header {
+.collection-card .card-toolbar span {
+  display: flex;
+  flex-direction: row;
+}
+.collection-card .card-toolbar .card-header {
   margin: 0;
-  padding: 0;
+  padding-right: 0.5rem;
   font-size: 1.1rem;
   font-weight: bold;
   color: #f8fafc;
+}
+.collection-card .card-toolbar .edit-btn {
+  display: inline;
+  padding: 0.5rem 1rem;
+  color: #052e16;
+  font-weight: bold;
+  font-size: 0.5rem;
+  background: #4ade80;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.collection-card .card-toolbar .edit-btn:hover {
+  opacity: 0.85;
+}
+.collection-card .card-toolbar .edit-btn--secondary {
+  color: #f8fafc;
+  background: #374151;
+}
+.collection-card .card-toolbar .dlt-btn {
+  display: inline;
+  padding: 0.5rem 1rem;
+  color: #052e16;
+  font-weight: bold;
+  font-size: 0.5rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.collection-card .card-toolbar .dlt-btn:hover {
+  opacity: 0.85;
+}
+.collection-card .card-toolbar .dlt-btn--secondary {
+  color: #f8fafc;
+  background: #374151;
+}
+.collection-card .collection-media {
+  list-style: none;
+}
+.collection-card .collection-media .media-item {
+  padding-left: 1rem;
 }
 .collection-card .btn-container {
   display: flex;
