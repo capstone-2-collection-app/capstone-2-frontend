@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useLogout } from "../hooks/useLogout";
 
 function Navbar() {
+  const { logout } = useLogout();
+
   return (
     <nav className="navbar" aria-label="Main navigation">
       <Link className="navbar__brand" to="/">
@@ -8,8 +11,16 @@ function Navbar() {
       </Link>
 
       <div className="navbar__links">
-        <Link to="/login">Login</Link>
-        <Link to="/signup">Sign up</Link>
+        <div>
+          <Link to="/login" onClick={logout}>
+            Logout
+          </Link>
+        </div>
+        <div>
+          <Link to="/login">Login</Link>
+          <Link to="/signup">Sign up</Link>
+        </div>
+
         <Link to="/">Home</Link>
         <Link to="/playlists">My Playlists</Link>
         <Link to="/search">Search Songs</Link>
