@@ -1,54 +1,23 @@
 import { useNavigate } from "react-router-dom";
-import "./Signup.css";
 import { useState } from "react";
-import { AuthContext } from "../context/AuthContext";
-import { useContext } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 function Signup() {
   const navigate = useNavigate();
-
-  const { dispatch } = useContext(AuthContext);
+  const { signup, isLoading, error } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [signupStatus, setSignupStatus] = useState(null);
+  const [signupStatus, setLoginStatus] = useState("");
 
-  const API_URL = import.meta.env.VITE_API_URL;
-
-  // create user
   async function handleSubmit(event) {
     event.preventDefault();
-
-    setIsLoading(true);
-    setError(null);
-
-    const response = await fetch(`${API_URL}/user/signup`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ name, email, password }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      setIsLoading(false);
-      setError(data.message);
-    }
-
-    if (response.ok) {
-      localStorage.setItem("user", JSON.stringify(data));
-
-      // update authcontext
-      dispatch({ type: "LOGIN", payload: data });
-      setIsLoading(false);
-      setEmail("");
+    const signupInfo = await signup(name, email, password);
+    if (signupInfo) {
       setName("");
+      setEmail("");
       setPassword("");
-      setSignupStatus("Account Registered.");
+      setLoginStatus("Account Registered.");
     }
   }
 
@@ -101,10 +70,7 @@ function Signup() {
           </button>
 
           {error && <div className="signup-message signup-error">{error}</div>}
-
-          {signupStatus && (
-            <div className="signup-message signup-success">{signupStatus}</div>
-          )}
+          <p>{signupStatus}</p>
         </form>
 
         <div className="signup-divider">

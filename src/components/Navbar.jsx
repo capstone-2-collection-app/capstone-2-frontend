@@ -12,11 +12,11 @@ function Navbar() {
 
       <div className="navbar__links">
         <div>
-          <Link to="/login" onClick={logout}>
+          <Link className="logout-button" to="/login" onClick={logout}>
             Logout
           </Link>
         </div>
-        <div>
+        <div className="auth-links">
           <Link to="/login">Login</Link>
           <Link to="/signup">Sign up</Link>
         </div>

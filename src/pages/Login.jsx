@@ -1,11 +1,23 @@
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
+import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
 
 function Login() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login, error, isLoading } = useAuth();
+  const [loginStatus, setLoginStatus] = useState("");
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
+    const loginInfo = await login(email, password);
+    if (loginInfo) {
+      setEmail("");
+      setPassword("");
+      setLoginStatus("Login Success");
+      navigate("/");
+    }
   }
 
   return (
@@ -19,10 +31,10 @@ function Login() {
             <input
               id="login-email"
               name="email"
-              type="email"
+              type="text"
               placeholder="Enter your email"
-              autoComplete="email"
-              required
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
           </div>
 
@@ -33,18 +45,16 @@ function Login() {
               name="password"
               type="password"
               placeholder="Enter your password"
-              autoComplete="current-password"
-              required
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
             />
           </div>
 
-          <button className="forgot-password" type="button">
-            Forgot password?
-          </button>
-
-          <button className="login-submit" type="submit">
+          <button className="login-submit" type="submit" disabled={isLoading}>
             Log in
           </button>
+          {error && <div>{error}</div>}
+          <p>{loginStatus}</p>
         </form>
 
         <p className="login-register">
