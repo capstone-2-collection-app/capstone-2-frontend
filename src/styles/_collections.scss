@@ -1,6 +1,6 @@
 @use "variables" as *;
 
-.container{
+.container {
   display: flex;
   flex-direction: row;
 
@@ -46,7 +46,9 @@
   height: 100%;
 
   padding: 1.25rem;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease;
 
   cursor: pointer;
 
@@ -55,17 +57,80 @@
     transform: translateY(-2px);
   }
 
-  &.selected{
+  &.selected {
     border-color: $color-accent;
     box-shadow: 0 0 0 2px rgba($color-accent, 0.3);
   }
 
-  .card-header {
-    margin: 0;
-    padding: 0;
-    font-size: 1.1rem;
-    font-weight: bold;
-    color: $color-text;
+  .card-toolbar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    width: inherit;
+
+    span{
+      display: flex;
+      flex-direction: row;
+    }
+    .card-header {
+      margin: 0;
+      padding-right: .5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: $color-text;
+    }
+    .edit-btn {
+      display: inline;
+      padding: 0.5rem 1rem;
+      color: $color-accent-text;
+      font-weight: bold;
+      font-size: 0.5rem;
+      background: $color-accent;
+      border-radius: $radius-pill;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 0.85;
+      }
+
+      &--secondary {
+        color: $color-text;
+        background: $color-border;
+      }
+    }
+
+    .dlt-btn {
+      display: inline;
+      padding: 0.5rem 1rem;
+      color: $color-accent-text;
+      font-weight: bold;
+      font-size: 0.5rem;
+      border-radius: $radius-pill;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 0.85;
+      }
+
+      &--secondary {
+        color: $color-text;
+        background: $color-border;
+      }
+    }
+  }
+
+  .collection-media {
+    list-style: none;
+
+    .media-item {
+      padding-left: 1rem;
+    }
   }
 
   .btn-container {
@@ -75,7 +140,6 @@
     align-items: center;
 
     gap: 0.75rem;
-    
   }
 
   .card-btn {
@@ -101,7 +165,6 @@
   }
 }
 
-
 .collection-children {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -113,24 +176,24 @@
 }
 
 .create-btn {
-    // display: inline-block;
-    padding: 0.5rem 1.25rem;
-    height: 3rem;
-    color: $color-accent-text;
-    font-weight: bold;
-    font-size: 0.85rem;
-    background: whitesmoke;
-    border-radius: 20px;
-    border: none;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
+  // display: inline-block;
+  padding: 0.5rem 1.25rem;
+  height: 3rem;
+  color: $color-accent-text;
+  font-weight: bold;
+  font-size: 0.85rem;
+  background: whitesmoke;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 
-    &:hover {
-      opacity: 0.85;
-    }
-
-    &--secondary {
-      color: $color-text;
-      background: whitesmoke;
-    }
+  &:hover {
+    opacity: 0.85;
   }
+
+  &--secondary {
+    color: $color-text;
+    background: whitesmoke;
+  }
+}

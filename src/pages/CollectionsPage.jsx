@@ -174,7 +174,7 @@ function CollectionsPage() {
               <CollectionCard
                 key={c.collection_id}
                 collection={c}
-                onAddChild={onAdd}
+                onAdd={onAdd}
                 onDelete={handleDelete}
               />
             ))}
