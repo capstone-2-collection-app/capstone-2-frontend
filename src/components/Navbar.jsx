@@ -7,7 +7,7 @@ function Navbar() {
   return (
     <nav className="navbar" aria-label="Main navigation">
       <Link className="navbar__brand" to="/">
-        Playlist App
+        Collection App
       </Link>
 
       <div className="navbar__links">
@@ -22,8 +22,8 @@ function Navbar() {
         </div>
 
         <Link to="/">Home</Link>
-        <Link to="/playlists">My Playlists</Link>
-        <Link to="/search">Search Songs</Link>
+        <Link to="/collections">My Collections</Link>
+        <Link to="/search">Search Items</Link>
       </div>
     </nav>
   );
