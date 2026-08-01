@@ -74,9 +74,8 @@ function CollectionsPage() {
   return (
     <main className="page-container">
       <header className="page-header">
-        <p className="eyebrow">Your saved items</p>
-        <span>
-          <h1>My Collections</h1>
+        <span className="container">
+          <h1>My Collections.</h1>
           {isVisible ? (
             <CreateCard onSubmit={handleCreate} onCancel={popUp}></CreateCard>
           ) : (
@@ -102,6 +101,7 @@ function CollectionsPage() {
           Delete
         </button>
         <select
+          className="selection"
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           disabled={!selectedId}

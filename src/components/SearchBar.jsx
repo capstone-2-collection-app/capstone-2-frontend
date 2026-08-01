@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 function SearchBar({ category, onResults, placeholder, delay = 500 }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
+  const [selectedIndex, setSelectedIndex] = useState(null);
   const timeoutRef = useRef(null);
 
   async function fetchMusic(searchTerm) {
@@ -16,6 +17,7 @@ function SearchBar({ category, onResults, placeholder, delay = 500 }) {
   async function handleSearch(searchTerm) {
     if (!searchTerm) {
       setResults([]);
+      setSelectedIndex(null);
       return;
     }
 
@@ -31,6 +33,7 @@ function SearchBar({ category, onResults, placeholder, delay = 500 }) {
       }
       const topFive = data.slice(0, 5);
       setResults(topFive);
+      setSelectedIndex(null);
       onResults?.(topFive);
     } catch (err) {
       console.error(`Search failed for category "${category}":`, err);
@@ -47,6 +50,13 @@ function SearchBar({ category, onResults, placeholder, delay = 500 }) {
     }, delay);
   }
 
+  function handleSelect(index, track){
+    const newSelectedIndex = (selectedIndex === index )? null : index;
+    setSelectedIndex(newSelectedIndex)
+    onSelectTrack?.(newSelectedIndex===null ? null : track)
+  }
+
+
   useEffect(() => {
     return () => clearTimeout(timeoutRef.current);
   }, []);
@@ -62,7 +72,11 @@ function SearchBar({ category, onResults, placeholder, delay = 500 }) {
       {results.length > 0 && (
         <ul className="search-results">
           {results.map((track, i) => (
-            <li key={i} className="search-result-item">
+            <li key={i} className={`search-result-item ${selectedIndex===i ? "selected":""}`}
+            onClick={(e)=>{
+                e.stopPropagation();
+                handleSelect(i, track)
+            }} >
               <span className="track-name">{track.name}</span>
               <span> by </span>
               <span className="track-artist">{track.artist}</span>

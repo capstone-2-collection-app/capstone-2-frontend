@@ -58,7 +58,7 @@ a {
 
 .page-container {
   margin: 0 auto;
-  padding: 3rem 2rem;
+  padding: 1rem 2rem;
 }
 @media (max-width: 650px) {
   .page-container {
@@ -66,9 +66,6 @@ a {
   }
 }
 
-.page-header {
-  margin-bottom: 2rem;
-}
 .page-header h1 {
   margin: 0.5rem 0 1rem;
   font-size: clamp(2.25rem, 6vw, 4rem);
@@ -125,6 +122,12 @@ a {
 .button--secondary {
   color: #f8fafc;
   background: #374151;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .empty-state {
@@ -220,13 +223,13 @@ a {
 }
 
 .create-btn {
-  display: inline-block;
   padding: 0.5rem 1.25rem;
+  height: 3rem;
   color: #052e16;
   font-weight: bold;
   font-size: 0.85rem;
   background: whitesmoke;
-  border-radius: 999px;
+  border-radius: 20px;
   border: none;
   cursor: pointer;
   transition: opacity 0.2s ease;
@@ -318,4 +321,113 @@ a {
 .form-card .card-btn--secondary {
   color: #f8fafc;
   background: #374151;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+  width: 100%;
+  padding: 1rem 0;
+}
+.toolbar .card-btn {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  margin: 0rem 0.3rem;
+  color: #052e16;
+  font-weight: bold;
+  font-size: 0.85rem;
+  background: whitesmoke;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.toolbar .card-btn:hover {
+  opacity: 0.85;
+}
+.toolbar .card-btn--secondary {
+  color: #f8fafc;
+  background: whitesmoke;
+}
+
+.selection {
+  display: inline-block;
+  padding: 0.5rem 1.25rem;
+  margin: 0rem 0.3rem;
+  color: #052e16;
+  font-weight: bold;
+  font-size: 0.85rem;
+  background: whitesmoke;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.selection:hover {
+  opacity: 0.85;
+}
+.selection--secondary {
+  color: #f8fafc;
+  background: whitesmoke;
+}
+
+.form-field {
+  width: 495px;
+}
+.form-field input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.95rem;
+  color: #f1f1f1;
+  background: #1e1e1e;
+  border: 1px solid rgba(245, 222, 179, 0.397);
+  border-radius: 8px;
+}
+.form-field input:focus {
+  outline: none;
+  border-color: #f5deb3;
+}
+
+.search-results {
+  top: calc(100% + 0.4rem);
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  list-style: none;
+  margin: 0;
+  margin-top: 1rem;
+  padding: 0.4rem;
+  background: #1e1e1e;
+  border: 1px solid rgba(245, 222, 179, 0.397);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  max-height: 100px;
+  overflow-y: scroll;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.search-result-item:hover {
+  background: rgba(245, 222, 179, 0.08);
+}
+.search-result-item.selected {
+  background: rgba(245, 222, 179, 0.12);
+  border: 1px solid #f5deb3;
+}
+.search-result-item .track-name {
+  font-weight: bold;
+  color: #f1f1f1;
+}
+.search-result-item .track-artist {
+  color: #a0a0a0;
+  font-size: 0.9rem;
 }/*# sourceMappingURL=main.css.map */

@@ -1,5 +1,12 @@
 @use "variables" as *;
 
+.container{
+  display: flex;
+  flex-direction: row;
+
+  align-items: center;
+}
+
 .empty-state {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -106,13 +113,14 @@
 }
 
 .create-btn {
-    display: inline-block;
+    // display: inline-block;
     padding: 0.5rem 1.25rem;
+    height: 3rem;
     color: $color-accent-text;
     font-weight: bold;
     font-size: 0.85rem;
     background: whitesmoke;
-    border-radius: $radius-pill;
+    border-radius: 20px;
     border: none;
     cursor: pointer;
     transition: opacity 0.2s ease;
