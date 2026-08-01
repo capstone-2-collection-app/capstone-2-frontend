@@ -60,6 +60,15 @@
     box-shadow: 0 0 0 2px rgba($color-accent, 0.3);
   }
 
+  .card-toolbar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    width: inherit;
+  }
+
   .card-header {
     margin: 0;
     padding: 0;

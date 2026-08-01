@@ -179,6 +179,13 @@ a {
   border-color: #4ade80;
   box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.3);
 }
+.collection-card .card-toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: inherit;
+}
 .collection-card .card-header {
   margin: 0;
   padding: 0;

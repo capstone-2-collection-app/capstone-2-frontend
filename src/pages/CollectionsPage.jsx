@@ -87,6 +87,7 @@ async function onAdd(parentId, item) {
         },
       );
       notifyMediaUpdated(parentId)
+      setSelectedItem(null)
     } else {
       // No item -> Add button was clicked directly -> create a child collection
       await fetch(
@@ -167,7 +168,7 @@ async function onSelect(item) {
               <CollectionCard
                 key={c.collection_id}
                 collection={c}
-                onAddChild={onAdd}
+                onAdd={onAdd}
                 onDelete={handleDelete}
               />
             ))}
