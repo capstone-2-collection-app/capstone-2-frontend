@@ -46,12 +46,15 @@
       color: $color-text-muted;
     }
 
+    input{
+      color: white;
+    }
+    
     input,
     select {
       width: 80%;
       padding: 0.4rem 0.75rem;
       font-size: 0.95rem;
-      color: black;
       border: 1px solid;
       border-radius: 20px;
 

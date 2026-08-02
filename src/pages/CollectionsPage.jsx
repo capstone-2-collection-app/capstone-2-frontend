@@ -140,6 +140,10 @@ function CollectionsPage() {
               Create
             </button>
           )}
+          {isVisible?(<span></span>):(<>
+          <h1>.</h1>
+          <button className="share-btn">Share</button>
+          </>)}
         </span>
       </header>
       <div className="toolbar">

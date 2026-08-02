@@ -1,14 +1,15 @@
-@use 'variables' as *;
+@use "variables" as *;
 
-.toolbar{
+.toolbar {
   display: flex;
   flex-direction: row;
   align-items: start;
   justify-content: center;
+  flex-wrap: wrap;
 
   width: 100%;
-  padding: 1rem 0;
-  .card-btn{
+  padding: 1rem 0.2rem;
+  .card-btn {
     display: inline-block;
     padding: 0.5rem 1.25rem;
     margin: 0rem 0.3rem;
@@ -32,27 +33,27 @@
   }
 }
 
-.selection{
+.selection {
   display: inline-block;
-    padding: 0.5rem 1.25rem;
-    margin: 0rem 0.3rem;
-    color: $color-accent-text;
-    font-weight: bold;
-    font-size: 0.85rem;
+  padding: 0.5rem 1.25rem;
+  margin: 0rem 0.3rem;
+  color: $color-accent-text;
+  font-weight: bold;
+  font-size: 0.85rem;
+  background: whitesmoke;
+  border-radius: $radius-pill;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &--secondary {
+    color: $color-text;
     background: whitesmoke;
-    border-radius: $radius-pill;
-    border: none;
-    cursor: pointer;
-    transition: opacity 0.2s ease;
-
-    &:hover {
-      opacity: 0.85;
-    }
-
-    &--secondary {
-      color: $color-text;
-      background: whitesmoke;
-    }
+  }
 }
 
 .form-field {
@@ -66,7 +67,7 @@
     background: #1e1e1e;
     border: 1px solid rgba(245, 222, 179, 0.397);
     border-radius: 8px;
-
+    margin-top: 0.3rem;
     &:focus {
       outline: none;
       border-color: #f5deb3;
@@ -75,7 +76,6 @@
 }
 
 .search-results {
-
   top: calc(100% + 0.4rem);
   left: 0;
   width: 100%;

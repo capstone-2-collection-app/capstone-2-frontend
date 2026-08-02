@@ -171,16 +171,19 @@ function CollectionCard({ collection, depth = 0 }) {
        */}
       {media.length > 0 && collection.category === "music" && (
         <ul className="collection-media">
+          
           {media.map((li) => (
+            
             <ListItem
-              key={li.id}
+              key={li.id??li.track_id}
               item={li}
               className="media-item"
               containerType={collection.category}
               isEditing={isEditing}
               isChecked={selectedItemIds.has(getItemId(li))}
               onToggleSelect={toggleItemSelected}
-            ></ListItem>
+            >
+            </ListItem>
           ))}
         </ul>
       )}
