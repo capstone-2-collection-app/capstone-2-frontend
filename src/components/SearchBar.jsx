@@ -12,13 +12,14 @@ function SearchBar({
   const [results, setResults] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const timeoutRef = useRef(null);
+  const API_URL = import.meta.env.VITE_API_URL;
 
   // authFetch - only user with auth token can search
   const authFetch = useAuthFetch();
 
   async function fetchMusic(searchTerm) {
     const res = await authFetch(
-      `http://localhost:3000/search/track?search=${encodeURIComponent(searchTerm)}`,
+      `${API_URL}/search/track?search=${encodeURIComponent(searchTerm)}`,
       { method: "GET", credentials: "include" },
     );
     return res.json();

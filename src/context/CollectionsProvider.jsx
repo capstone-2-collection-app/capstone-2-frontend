@@ -9,7 +9,7 @@ export function CollectionsProvider({ children }) {
   const [selectedId, setSelectedId] = useState(null);
   // in CollectionsContext.jsx
   const [updatedCollection, setUpdatedCollection] = useState(null); // { id, version }
-
+  const API_URL = import.meta.env.VITE_API_URL;
   // authenticated fetch
   const authFetch = useAuthFetch();
 
@@ -25,7 +25,7 @@ export function CollectionsProvider({ children }) {
     initial_load ? setLoading(true) : setIsReload(true);
     try {
       // added bearer token
-      const res = await authFetch("http://localhost:3000/api/collections", {
+      const res = await authFetch(`${API_URL}/api/collections`, {
         credentials: "include", // required so the guest_id cookie is sent
       });
       const data = await res.json();

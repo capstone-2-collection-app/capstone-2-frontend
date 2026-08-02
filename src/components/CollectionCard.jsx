@@ -12,6 +12,8 @@ function CollectionCard({ collection, depth = 0 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [selectedItemIds, setSelectedItemIds] = useState(new Set());
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   function getItemId(item) {
     return item.id ?? item.track_id ?? item.movie_id;
   }
@@ -52,7 +54,7 @@ function CollectionCard({ collection, depth = 0 }) {
       await Promise.all(
         [...selectedItemIds].map((id) =>
           fetch(
-            `http://localhost:3000/api/collections/${collection.collection_id}/${endpoint}/${id}`,
+            `${API_URL}/api/collections/${collection.collection_id}/${endpoint}/${id}`,
             { method: "DELETE", credentials: "include" },
           ),
         ),
@@ -79,7 +81,7 @@ function CollectionCard({ collection, depth = 0 }) {
       try {
         const endpoint = collection.category === "music" ? "tracks" : "movies";
         const res = await authFetch(
-          `http://localhost:3000/api/collections/${collection.collection_id}/${endpoint}`,
+          `${API_URL}/api/collections/${collection.collection_id}/${endpoint}`,
           { method: "GET", credentials: "include" },
         );
         const data = await res.json();
@@ -112,7 +114,7 @@ function CollectionCard({ collection, depth = 0 }) {
       try {
         const endpoint = collection.category === "music" ? "tracks" : "movies";
         const res = await authFetch(
-          `http://localhost:3000/api/collections/${collection.collection_id}/${endpoint}`,
+          `${API_URL}/api/collections/${collection.collection_id}/${endpoint}`,
           { method: "GET", credentials: "include" },
         );
         const data = await res.json();
