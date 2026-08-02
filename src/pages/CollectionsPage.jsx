@@ -143,7 +143,9 @@ function CollectionsPage() {
           )}
           {isVisible?(<span></span>):(<>
           <h1>.</h1>
-          <button className="share-btn">Share</button>
+          <button className="share-btn" disabled={!selectedId}>
+            Share
+          </button>
           </>)}
         </span>
       </header>
