@@ -21,6 +21,7 @@ function CollectionsPage() {
   const authFetch = useAuthFetch(); // we want to add bearer token in our requ from the frontend
   const navigate = useNavigate();
 
+  const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     fetchCollections();
   }, []);
@@ -28,7 +29,7 @@ function CollectionsPage() {
   async function handleCreate({ SelectedId, name, category }) {
     try {
       if (!SelectedId) {
-        await authFetch("http://localhost:3000/api/collections", {
+        await authFetch(`${API_URL}/api/collections`, {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -39,7 +40,7 @@ function CollectionsPage() {
         });
       } else {
         await authFetch(
-          `http://localhost:3000/api/collections/${SelectedId}/children`,
+          `${API_URL}/api/collections/${SelectedId}/children`,
           {
             method: "POST",
             credentials: "include",
@@ -85,7 +86,7 @@ function CollectionsPage() {
 
   async function handleDelete(id) {
     try {
-      await authFetch(`http://localhost:3000/api/collections/${id}`, {
+      await authFetch(`${API_URL}/api/collections/${id}`, {
         method: "DELETE",
         credentials: "include",
       });
@@ -100,7 +101,7 @@ function CollectionsPage() {
       if (item) {
         // A search result was selected -> add as a track
         await authFetch(
-          `http://localhost:3000/api/collections/${parentId}/tracks`,
+          `${API_URL}/api/collections/${parentId}/tracks`,
           {
             method: "POST",
             credentials: "include",
