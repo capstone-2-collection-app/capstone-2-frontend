@@ -344,19 +344,50 @@ a {
 }
 
 .login-submit {
-  padding: 12px;
+  width: 100%;
+  padding: 13px 18px;
   color: black;
+  font-size: 16px;
   font-weight: bold;
   background-color: #1ed760;
-  border: none;
+  border: 1px solid #1ed760;
   border-radius: 25px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
 .login-submit:hover {
   background-color: #3be477;
 }
 
+.login-actions {
+  display: grid;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.guest-login-link {
+  display: block;
+  margin: 16px auto 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: white;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.guest-login-link:hover {
+  color: #1ed760;
+}
+
+.guest-login-link:disabled {
+  color: #777;
+  cursor: not-allowed;
+}
+
+.login-submit:disabled,
 .login-register {
   margin-top: 25px;
   color: #aaa;

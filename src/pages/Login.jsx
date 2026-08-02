@@ -23,7 +23,7 @@ function Login() {
   async function handleGuestLogin() {
     const guestInfo = await loginAsGuest();
     if (guestInfo) {
-      navigate("/home");
+      navigate("/");
     }
   }
 
@@ -57,18 +57,20 @@ function Login() {
             />
           </div>
 
-          <span>
+          <div className="login-actions">
             <button className="login-submit" type="submit" disabled={isLoading}>
-              Log in
+              {isLoading ? "Logging in..." : "Log in"}
             </button>
+
             <button
-              className="login-submit"
+              type="button"
+              className="guest-login-link"
               onClick={handleGuestLogin}
               disabled={isLoading}
             >
-              Guest
+              Log in as Guest
             </button>
-          </span>
+          </div>
 
           {error && <div>{error}</div>}
           <p>{loginStatus}</p>
