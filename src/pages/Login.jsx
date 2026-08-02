@@ -6,7 +6,7 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, error, isLoading } = useAuth();
+  const { login, error, isLoading, loginAsGuest } = useAuth();
   const [loginStatus, setLoginStatus] = useState("");
 
   async function handleSubmit(event) {
@@ -17,6 +17,13 @@ function Login() {
       setPassword("");
       setLoginStatus("Login Success");
       navigate("/");
+    }
+  }
+
+  async function handleGuestLogin() {
+    const guestInfo = await loginAsGuest();
+    if (guestInfo) {
+      navigate("/home");
     }
   }
 
@@ -50,9 +57,19 @@ function Login() {
             />
           </div>
 
-          <button className="login-submit" type="submit" disabled={isLoading}>
-            Log in
-          </button>
+          <span>
+            <button className="login-submit" type="submit" disabled={isLoading}>
+              Log in
+            </button>
+            <button
+              className="login-submit"
+              onClick={handleGuestLogin}
+              disabled={isLoading}
+            >
+              Guest
+            </button>
+          </span>
+
           {error && <div>{error}</div>}
           <p>{loginStatus}</p>
         </form>

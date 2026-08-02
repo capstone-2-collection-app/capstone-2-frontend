@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-function CreateCard({ onSubmit, onCancel }) {
+function CreateCard({ SelectedId, onSubmit, onCancel }) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Container");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit?.({ name, category });
+    onSubmit?.({ SelectedId, name, category });
   };
 
   return (

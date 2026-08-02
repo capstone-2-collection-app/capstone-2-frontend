@@ -11,6 +11,10 @@ export function useAuth() {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+  function loginAsGuest() {
+  return authenticate("guest", {});
+}
+
   // two endpoints/input data for login and sign up
   async function authenticate(endpoint, userInput) {
     setIsLoading(true);
@@ -65,6 +69,7 @@ export function useAuth() {
   return {
     signup,
     login,
+    loginAsGuest,
     isLoading,
     error,
   };

@@ -140,22 +140,25 @@ function CollectionCard({ collection, depth = 0 }) {
       }}
     >
       {/* Card header with edit button*/}
+
       <div className="card-toolbar">
         <h2 className="card-header">{collection.name}</h2>
-        <span>
-          {isEditing && (
-            <button
-              className="dlt-btn"
-              disabled={selectedItemIds.size === 0}
-              onClick={handleDeleteSelected}
-            >
-              Delete ({selectedItemIds.size})
+        {collection.category !== "container" && (
+          <span>
+            {isEditing && (
+              <button
+                className="dlt-btn"
+                disabled={selectedItemIds.size === 0}
+                onClick={handleDeleteSelected}
+              >
+                Delete ({selectedItemIds.size})
+              </button>
+            )}
+            <button className="edit-btn" onClick={toggleEdit}>
+              {isEditing ? "Done" : "Edit"}
             </button>
-          )}
-          <button className="edit-btn" onClick={toggleEdit}>
-            {isEditing ? "Done" : "Edit"}
-          </button>
-        </span>
+          </span>
+        )}
       </div>
 
       {loadingMedia && collection.category !== "container" && (

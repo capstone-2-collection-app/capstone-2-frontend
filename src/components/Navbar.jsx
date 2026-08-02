@@ -21,13 +21,14 @@ function Navbar() {
         )}
         {user && (
           <div className="navbar__links">
-            <span>{user.email}</span>
-            <Link className="logout-button" to="/login" onClick={logout}>
-              Logout
-            </Link>
-            <Link to="/">Home</Link>
+            
+            
+            {/* <Link to="/">Home</Link> */}
             <Link to="/collections">My Collections</Link>
-            <Link to="/search">Search Items</Link>
+            <Link className="logout-button" to="/login" onClick={logout}>
+              {user.isGuest?"Signup" : "Logout"}
+            </Link>
+            {/* <Link to="/search">Search Items</Link> */}
           </div>
         )}
       </div>

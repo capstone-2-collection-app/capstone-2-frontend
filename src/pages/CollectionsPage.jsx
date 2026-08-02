@@ -25,17 +25,32 @@ function CollectionsPage() {
     fetchCollections();
   }, []);
 
-  async function handleCreate({ name, category }) {
+  async function handleCreate({ SelectedId, name, category }) {
     try {
-      await authFetch("http://localhost:3000/api/collections", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: name,
-          category: category,
-        }),
-      });
+      if (!SelectedId) {
+        await authFetch("http://localhost:3000/api/collections", {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name,
+            category: category,
+          }),
+        });
+      } else {
+        await authFetch(
+          `http://localhost:3000/api/collections/${SelectedId}/children`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: name,
+              category: category,
+            }),
+          },
+        );
+      }
       fetchCollections();
     } catch (err) {
       console.error("Failed to create collection:", err);
@@ -94,22 +109,12 @@ function CollectionsPage() {
           },
         );
         notifyMediaUpdated(parentId);
+        setSelectedItem(null);
+        fetchCollections();
       } else {
-        // No item -> Add button was clicked directly -> create a child collection
-        await authFetch(
-          `http://localhost:3000/api/collections/${parentId}/children`,
-          {
-            method: "POST",
-            credentials: "include",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: "New Sub-Collection",
-              category: "mixed",
-            }),
-          },
-        );
+        // No item -> Add button was clicked directly -> popUp the createCard component to add container
+        popUp();
       }
-      fetchCollections();
     } catch (err) {
       console.error("Failed to add:", err);
     }
@@ -125,7 +130,11 @@ function CollectionsPage() {
         <span className="container">
           <h1>My Collections.</h1>
           {isVisible ? (
-            <CreateCard onSubmit={handleCreate} onCancel={popUp}></CreateCard>
+            <CreateCard
+              SelectedId={selectedId}
+              onSubmit={handleCreate}
+              onCancel={popUp}
+            ></CreateCard>
           ) : (
             <button className="create-btn" onClick={popUp}>
               Create
