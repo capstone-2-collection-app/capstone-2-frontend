@@ -61,6 +61,14 @@ function SearchBar({
     }, delay);
   }
 
+  function handleKeyDown(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      clearTimeout(timeoutRef.current);
+      handleSearch(query);
+    }
+  }
+
   function handleSelect(index, track) {
     const newSelectedIndex = selectedIndex === index ? null : index;
     setSelectedIndex(newSelectedIndex);
@@ -78,6 +86,7 @@ function SearchBar({
         type="text"
         value={query}
         onChange={handleChange}
+        onKeyDown={handleKeyDown}
         placeholder={placeholder ?? `Search ${category ?? ""}...`}
       />
       {results.length > 0 && (
