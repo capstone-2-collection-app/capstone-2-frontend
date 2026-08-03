@@ -38,8 +38,12 @@ function CreateCard({ SelectedId, onSubmit, onCancel }) {
               </option>
               <option value="Container">Container (folders only)</option>
               <option value="Music">Music</option>
-              <option value="Movies">Movies</option>
-              <option value="Books">Books</option>
+              <option value="Movies" disabled>
+                Movies (coming soon)
+              </option>
+              <option value="Books" disabled>
+                Books (coming soon)
+              </option>
             </select>
           </div>
         </span>

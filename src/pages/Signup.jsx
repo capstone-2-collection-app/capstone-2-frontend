@@ -18,7 +18,7 @@ function Signup() {
       setEmail("");
       setPassword("");
       setLoginStatus("Account Registered.");
-      navigate("/home");
+      navigate("/");
     }
   }
 
@@ -37,6 +37,7 @@ function Signup() {
               placeholder="Enter your name"
               onChange={(e) => setName(e.target.value)}
               value={name}
+              required
             />
           </div>
 
@@ -45,10 +46,11 @@ function Signup() {
             <input
               id="email"
               name="email"
-              type="text"
+              type="email"
               placeholder="name@example.com"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              required
             />
           </div>
 

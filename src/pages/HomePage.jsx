@@ -7,8 +7,8 @@ function HomePage() {
         <p className="eyebrow">Your favorites, your way</p>
         <h1>Keep everything you enjoy in one place.</h1>
         <p>
-          Create collections for music and movies, then save your favorite
-          items so they are easy to find and share.
+          Create music collections, then save your favorite songs so they are
+          easy to find and share.
         </p>
 
         <div className="hero__actions">
@@ -16,7 +16,7 @@ function HomePage() {
             View Collections
           </Link>
           <Link className="button button--secondary" to="/search">
-            Search Items
+            Search Music
           </Link>
         </div>
       </section>

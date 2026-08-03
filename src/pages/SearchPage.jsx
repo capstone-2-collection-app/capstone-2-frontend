@@ -31,7 +31,6 @@ function SearchPage() {
   const { collections, loading, fetchCollections, notifyMediaUpdated } =
     useCollections();
   const [selectedCollectionId, setSelectedCollectionId] = useState("");
-  const [selectedTrack, setSelectedTrack] = useState(null);
   const [message, setMessage] = useState("");
   const authFetch = useAuthFetch();
   const API_URL = import.meta.env.VITE_API_URL;
@@ -43,9 +42,10 @@ function SearchPage() {
     }
   }, [collections.length, loading, fetchCollections]);
 
-  async function handleAddTrack() {
-    if (!selectedCollectionId || !selectedTrack) {
-      return;
+  async function handleAddTrack(track) {
+    if (!selectedCollectionId) {
+      setMessage("Choose a music collection first.");
+      return false;
     }
 
     try {
@@ -57,7 +57,7 @@ function SearchPage() {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(selectedTrack),
+          body: JSON.stringify(track),
         },
       );
 
@@ -68,10 +68,11 @@ function SearchPage() {
       }
 
       notifyMediaUpdated(Number(selectedCollectionId));
-      setSelectedTrack(null);
       setMessage(`${data.name} was added to your collection.`);
+      return true;
     } catch (err) {
       setMessage(err.message);
+      return false;
     }
   }
 
@@ -108,22 +109,14 @@ function SearchPage() {
         <p>Create a music collection before adding a song.</p>
       ) : (
         <>
+          {!selectedCollectionId && (
+            <p>Choose a collection to enable the Add buttons.</p>
+          )}
           <SearchBar
             category="Music"
-            onResults={() => {
-              setSelectedTrack(null);
-              setMessage("");
-            }}
-            onSelect={setSelectedTrack}
+            canAdd={Boolean(selectedCollectionId)}
+            onAdd={handleAddTrack}
           />
-          <button
-            className="button"
-            type="button"
-            disabled={!selectedCollectionId || !selectedTrack}
-            onClick={handleAddTrack}
-          >
-            Add to Collection
-          </button>
         </>
       )}
 

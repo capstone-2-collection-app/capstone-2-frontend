@@ -3,14 +3,14 @@ import { useAuthFetch } from "../hooks/useAuthFetch";
 
 function SearchBar({
   category,
-  onResults,
-  onSelect,
+  onAdd,
+  canAdd,
   placeholder,
   delay = 500,
 }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [error, setError] = useState("");
   const timeoutRef = useRef(null);
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -22,17 +22,24 @@ function SearchBar({
       `${API_URL}/search/track?search=${encodeURIComponent(searchTerm)}`,
       { method: "GET", credentials: "include" },
     );
-    return res.json();
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || data.message || "Music search failed");
+    }
+
+    return data;
   }
 
   async function handleSearch(searchTerm) {
     if (!searchTerm) {
       setResults([]);
-      setSelectedIndex(null);
+      setError("");
       return;
     }
 
     try {
+      setError("");
       let data;
       switch (category) {
         case "Music":
@@ -44,10 +51,10 @@ function SearchBar({
       }
       const topFive = data.slice(0, 5);
       setResults(topFive);
-      setSelectedIndex(null);
-      onResults?.(topFive);
     } catch (err) {
       console.error(`Search failed for category "${category}":`, err);
+      setResults([]);
+      setError(err.message);
     }
   }
 
@@ -65,15 +72,17 @@ function SearchBar({
     if (e.key === "Enter") {
       e.preventDefault();
       clearTimeout(timeoutRef.current);
-      handleSearch(query);
+      handleSearch(e.currentTarget.value);
     }
   }
 
-  function handleSelect(index, track) {
-    const newSelectedIndex = selectedIndex === index ? null : index;
-    setSelectedIndex(newSelectedIndex);
-    console.log(track);
-    onSelect?.(newSelectedIndex === null ? null : track);
+  async function handleAdd(track) {
+    const wasAdded = await onAdd?.(track);
+
+    if (wasAdded) {
+      setQuery("");
+      setResults([]);
+    }
   }
 
   useEffect(() => {
@@ -92,21 +101,23 @@ function SearchBar({
       {results.length > 0 && (
         <ul className="search-results">
           {results.map((track, i) => (
-            <li
-              key={i}
-              className={`search-result-item ${selectedIndex === i ? "selected" : ""}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleSelect(i, track);
-              }}
-            >
+            <li key={`${track.name}-${track.artist}-${i}`} className="search-result-item">
               <span className="track-name">{track.name}</span>
               <span> by </span>
               <span className="track-artist">{track.artist}</span>
+              <button
+                className="search-add-button"
+                type="button"
+                disabled={!canAdd}
+                onClick={() => handleAdd(track)}
+              >
+                Add
+              </button>
             </li>
           ))}
         </ul>
       )}
+      {error && <p>{error}</p>}
     </div>
   );
 }
