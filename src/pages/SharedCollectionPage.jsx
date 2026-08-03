@@ -50,6 +50,34 @@ function SharedCollectionPage() {
         <h1>{collection.name}</h1>
         <p>Category: {collection.category}</p>
       </header>
+
+      <section>
+        <h2>Music</h2>
+        {collection.tracks.length === 0 ? (
+          <p>No music in this collection.</p>
+        ) : (
+          collection.tracks.map((track) => (
+            <article key={track.track_id}>
+              <h3>{track.name}</h3>
+              <p>{track.artist}</p>
+            </article>
+          ))
+        )}
+      </section>
+
+      <section>
+        <h2>Movies</h2>
+        {collection.movies.length === 0 ? (
+          <p>No movies in this collection.</p>
+        ) : (
+          collection.movies.map((movie) => (
+            <article key={movie.movie_id}>
+              <h3>{movie.title}</h3>
+              <p>{movie.director}</p>
+            </article>
+          ))
+        )}
+      </section>
     </main>
   );
 }
