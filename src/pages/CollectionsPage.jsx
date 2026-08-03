@@ -166,12 +166,14 @@ function CollectionsPage() {
                 disabled={!selectedId}
                 onClick={handleShare}
               >
-                Share
+                {shareMessage === "Share link copied."
+                  ? "Link copied!"
+                  : "Share"}
               </button>
-              {shareMessage && <p>{shareMessage}</p>}
             </>
           )}
         </span>
+        {shareMessage && <p role="status">{shareMessage}</p>}
         {collectionMessage && <p>{collectionMessage}</p>}
       </header>
       <div className="toolbar">
