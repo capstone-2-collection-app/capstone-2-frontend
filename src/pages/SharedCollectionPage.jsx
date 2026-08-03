@@ -3,6 +3,53 @@ import { useParams } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+function CollectionItems({ collection }) {
+  return (
+    <>
+      <section>
+        <h2>Music</h2>
+        {collection.tracks.length === 0 ? (
+          <p>No music in this collection.</p>
+        ) : (
+          collection.tracks.map((track) => (
+            <article key={track.track_id}>
+              <h3>{track.name}</h3>
+              <p>{track.artist}</p>
+            </article>
+          ))
+        )}
+      </section>
+
+      <section>
+        <h2>Movies</h2>
+        {collection.movies.length === 0 ? (
+          <p>No movies in this collection.</p>
+        ) : (
+          collection.movies.map((movie) => (
+            <article key={movie.movie_id}>
+              <h3>{movie.title}</h3>
+              <p>{movie.director}</p>
+            </article>
+          ))
+        )}
+      </section>
+
+      {collection.children.length > 0 && (
+        <section>
+          <h2>Collections</h2>
+          {collection.children.map((child) => (
+            <article key={child.collection_id}>
+              <h3>{child.name}</h3>
+              <p>Category: {child.category}</p>
+              <CollectionItems collection={child} />
+            </article>
+          ))}
+        </section>
+      )}
+    </>
+  );
+}
+
 function SharedCollectionPage() {
   const { shareToken } = useParams();
   const [collection, setCollection] = useState(null);
@@ -51,33 +98,7 @@ function SharedCollectionPage() {
         <p>Category: {collection.category}</p>
       </header>
 
-      <section>
-        <h2>Music</h2>
-        {collection.tracks.length === 0 ? (
-          <p>No music in this collection.</p>
-        ) : (
-          collection.tracks.map((track) => (
-            <article key={track.track_id}>
-              <h3>{track.name}</h3>
-              <p>{track.artist}</p>
-            </article>
-          ))
-        )}
-      </section>
-
-      <section>
-        <h2>Movies</h2>
-        {collection.movies.length === 0 ? (
-          <p>No movies in this collection.</p>
-        ) : (
-          collection.movies.map((movie) => (
-            <article key={movie.movie_id}>
-              <h3>{movie.title}</h3>
-              <p>{movie.director}</p>
-            </article>
-          ))
-        )}
-      </section>
+      <CollectionItems collection={collection} />
     </main>
   );
 }
