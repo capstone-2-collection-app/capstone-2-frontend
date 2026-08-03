@@ -473,6 +473,7 @@ a {
 
 .form-field {
   width: 495px;
+  max-width: 100%;
 }
 .form-field input {
   width: 100%;
@@ -502,7 +503,7 @@ a {
   border: 1px solid rgba(245, 222, 179, 0.397);
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  max-height: 100px;
+  max-height: 260px;
   overflow-y: scroll;
 }
 
@@ -529,4 +530,18 @@ a {
 .search-result-item .track-artist {
   color: #a0a0a0;
   font-size: 0.9rem;
+}
+.search-add-button {
+  margin-left: auto;
+  padding: 0.4rem 0.8rem;
+  color: #052e16;
+  font-weight: bold;
+  background: #4ade80;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.search-add-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }/*# sourceMappingURL=main.css.map */

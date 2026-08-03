@@ -21,14 +21,17 @@ function Navbar() {
         )}
         {user && (
           <div className="navbar__links">
-            
-            
-            {/* <Link to="/">Home</Link> */}
+            <Link to="/">Home</Link>
             <Link to="/collections">My Collections</Link>
+            <Link to="/search">Search Music</Link>
+            {user.isGuest && (
+              <Link to="/signup" onClick={logout}>
+                Create Account
+              </Link>
+            )}
             <Link className="logout-button" to="/login" onClick={logout}>
-              {user.isGuest?"Signup" : "Logout"}
+              Log out
             </Link>
-            {/* <Link to="/search">Search Items</Link> */}
           </div>
         )}
       </div>

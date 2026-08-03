@@ -38,10 +38,11 @@ function Login() {
             <input
               id="login-email"
               name="email"
-              type="text"
+              type="email"
               placeholder="Enter your email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
+              required
             />
           </div>
 
@@ -54,6 +55,7 @@ function Login() {
               placeholder="Enter your password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
+              required
             />
           </div>
 

@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import CollectionsPage from "./pages/CollectionsPage.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
+import SharedCollectionPage from "./pages/SharedCollectionPage.jsx";
 import Signup from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
 import { CollectionsProvider } from "./context/CollectionsProvider.jsx";
@@ -28,6 +29,10 @@ function App() {
         <Route
           path="/login"
           element={!user ? <Login /> : <Navigate to="/"></Navigate>}
+        />
+        <Route
+          path="/shared/:shareToken"
+          element={<SharedCollectionPage />}
         />
         <Route
           path="/collections"

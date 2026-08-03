@@ -11,6 +11,7 @@ function CollectionCard({ collection, depth = 0 }) {
   const [loadingMedia, setLoadingMedia] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedItemIds, setSelectedItemIds] = useState(new Set());
+  const [mediaMessage, setMediaMessage] = useState("");
 
   const API_URL = import.meta.env.VITE_API_URL;
 
@@ -22,6 +23,7 @@ function CollectionCard({ collection, depth = 0 }) {
     e.stopPropagation();
     setIsEditing((prev) => !prev);
     setSelectedItemIds(new Set()); // reset selection whenever edit mode toggles
+    setMediaMessage("");
   }
 
   function toggleItemSelected(item) {
@@ -51,20 +53,28 @@ function CollectionCard({ collection, depth = 0 }) {
     }
 
     try {
-      await Promise.all(
-        [...selectedItemIds].map((id) =>
-          fetch(
-            `${API_URL}/api/collections/${collection.collection_id}/${endpoint}/${id}`,
-            { method: "DELETE", credentials: "include" },
-          ),
-        ),
-      );
+      setMediaMessage("Removing selected items...");
+
+      for (const id of selectedItemIds) {
+        const response = await authFetch(
+          `${API_URL}/api/collections/${collection.collection_id}/${endpoint}/${id}`,
+          { method: "DELETE", credentials: "include" },
+        );
+
+        if (!response.ok) {
+          const data = await response.json();
+          throw new Error(data.error || data.message || "Could not remove item");
+        }
+      }
+
       setMedia((prev) =>
         prev.filter((m) => !selectedItemIds.has(getItemId(m))),
       );
       setSelectedItemIds(new Set());
+      setMediaMessage("Selected items removed.");
     } catch (err) {
       console.error("Failed to delete selected items:", err);
+      setMediaMessage(err.message);
     }
   }
 
@@ -166,6 +176,7 @@ function CollectionCard({ collection, depth = 0 }) {
       {loadingMedia && collection.category !== "container" && (
         <p className="media-loading">Loading...</p>
       )}
+      {mediaMessage && <p>{mediaMessage}</p>}
 
       {/*
        This iterates over the fetched media(movies/music/books/etc..)

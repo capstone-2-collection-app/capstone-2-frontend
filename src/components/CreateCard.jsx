@@ -2,7 +2,7 @@ import { useState } from "react";
 
 function CreateCard({ SelectedId, onSubmit, onCancel }) {
   const [name, setName] = useState("");
-  const [category, setCategory] = useState("Container");
+  const [category, setCategory] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,11 +31,19 @@ function CreateCard({ SelectedId, onSubmit, onCancel }) {
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
+              required
             >
-              <option value="Container">Container</option>
+              <option value="" disabled>
+                Choose a category
+              </option>
+              <option value="Container">Container (folders only)</option>
               <option value="Music">Music</option>
-              <option value="Movies">Movies</option>
-              <option value="Books">Books</option>
+              <option value="Movies" disabled>
+                Movies (coming soon)
+              </option>
+              <option value="Books" disabled>
+                Books (coming soon)
+              </option>
             </select>
           </div>
         </span>
