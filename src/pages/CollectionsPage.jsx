@@ -1,11 +1,9 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useCollections } from "../context/CollectionsContext";
 import CollectionCard from "../components/CollectionCard";
 import CreateCard from "../components/CreateCard";
 import SearchBar from "../components/SearchBar";
 import { useAuthFetch } from "../hooks/useAuthFetch"; // imported authFetch hook
-import { AuthContext } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 function CollectionsPage() {
   const { collections, loading, fetchCollections } = useCollections();
@@ -14,13 +12,12 @@ function CollectionsPage() {
 
   const [category, setCategory] = useState("search");
   const [selectedItem, setSelectedItem] = useState(null);
+  const [collectionMessage, setCollectionMessage] = useState("");
   const [shareMessage, setShareMessage] = useState("");
   const showSearchBar = category !== "search";
 
-  const { user } = useContext(AuthContext); // global user state or current logged in user
   // to use authFetch
   const authFetch = useAuthFetch(); // we want to add bearer token in our requ from the frontend
-  const navigate = useNavigate();
 
   const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
@@ -29,8 +26,11 @@ function CollectionsPage() {
 
   async function handleCreate({ SelectedId, name, category }) {
     try {
+      setCollectionMessage("Creating collection...");
+      let response;
+
       if (!SelectedId) {
-        await authFetch(`${API_URL}/api/collections`, {
+        response = await authFetch(`${API_URL}/api/collections`, {
           method: "POST",
           credentials: "include",
           headers: { "Content-Type": "application/json" },
@@ -40,7 +40,7 @@ function CollectionsPage() {
           }),
         });
       } else {
-        await authFetch(
+        response = await authFetch(
           `${API_URL}/api/collections/${SelectedId}/children`,
           {
             method: "POST",
@@ -53,15 +53,24 @@ function CollectionsPage() {
           },
         );
       }
-      fetchCollections();
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Could not create collection");
+      }
+
+      await fetchCollections();
+      setCollectionMessage(`${data.name} was created.`);
+      setIsVisible(false);
     } catch (err) {
       console.error("Failed to create collection:", err);
-    } finally {
-      setIsVisible(false);
+      setCollectionMessage(err.message);
     }
   }
 
   function popUp() {
+    setCollectionMessage("");
     setIsVisible(!isVisible);
   }
 
@@ -182,6 +191,7 @@ function CollectionsPage() {
           {shareMessage && <p>{shareMessage}</p>}
           </>)}
         </span>
+        {collectionMessage && <p>{collectionMessage}</p>}
       </header>
       <div className="toolbar">
         <button
