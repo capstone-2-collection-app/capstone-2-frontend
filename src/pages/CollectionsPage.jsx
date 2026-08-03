@@ -14,6 +14,7 @@ function CollectionsPage() {
 
   const [category, setCategory] = useState("search");
   const [selectedItem, setSelectedItem] = useState(null);
+  const [shareMessage, setShareMessage] = useState("");
   const showSearchBar = category !== "search";
 
   const { user } = useContext(AuthContext); // global user state or current logged in user
@@ -124,6 +125,32 @@ function CollectionsPage() {
   async function onSelect(item) {
     setSelectedItem(item);
   }
+
+  async function handleShare() {
+    try {
+      setShareMessage("Creating share link...");
+
+      const response = await authFetch(
+        `${API_URL}/api/collections/${selectedId}/share`,
+        {
+          method: "POST",
+          credentials: "include",
+        },
+      );
+
+      const data = await response.json();
+
+      if (!response.ok || !data.share_token) {
+        throw new Error(data.error || "Could not create share link");
+      }
+
+      setShareMessage("Share link created.");
+    } catch (err) {
+      console.error("Failed to share collection:", err);
+      setShareMessage("Could not create share link.");
+    }
+  }
+
   if (loading) return <p>Loading...</p>;
   return (
     <main className="page-container">
@@ -143,9 +170,14 @@ function CollectionsPage() {
           )}
           {isVisible?(<span></span>):(<>
           <h1>.</h1>
-          <button className="share-btn" disabled={!selectedId}>
+          <button
+            className="share-btn"
+            disabled={!selectedId}
+            onClick={handleShare}
+          >
             Share
           </button>
+          {shareMessage && <p>{shareMessage}</p>}
           </>)}
         </span>
       </header>
