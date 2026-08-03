@@ -144,7 +144,9 @@ function CollectionsPage() {
         throw new Error(data.error || "Could not create share link");
       }
 
-      setShareMessage("Share link created.");
+      const shareUrl = `${window.location.origin}/shared/${data.share_token}`;
+      await navigator.clipboard.writeText(shareUrl);
+      setShareMessage("Share link copied.");
     } catch (err) {
       console.error("Failed to share collection:", err);
       setShareMessage("Could not create share link.");
